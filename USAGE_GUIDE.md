@@ -26,15 +26,43 @@ bash setup_project.sh
 Follow the prompts to create or select a conda environment.
 
 ## 4. Start the Backend and Frontend
-In separate terminals, run:
+
+First, ensure no other processes are using the required ports:
+```bash
+# Check if ports are in use
+lsof -i :5000  # backend port
+lsof -i :3000  # frontend port
+
+# If needed, kill the processes
+sudo kill $(lsof -t -i:5000)
+sudo kill $(lsof -t -i:3000)
+```
+
+Then start the servers using the provided shell scripts:
+
+### Start the Backend Server
+Open a terminal and run:
 ```bash
 bash run_backend.sh
 ```
+This script will:
+- Activate the correct conda environment
+- Set up environment variables
+- Start the Flask development server
+- The API will be available at http://localhost:5000
+
+### Start the Frontend Server
+Open another terminal and run:
 ```bash
 bash run_frontend.sh
 ```
-- Backend: http://localhost:5000
-- Frontend: http://localhost:3000
+This script will:
+- Activate the conda environment if needed
+- Start the Vite development server
+- The web app will be available at http://localhost:3000
+
+### Running in GitHub Codespaces
+When running in Codespaces, the ports will be automatically forwarded. Look for the notifications in VS Code that show the public URLs for accessing your servers.
 
 ## 5. Customize for Your Project
 
