@@ -74,6 +74,41 @@ Follow the prompts in your terminal. Once complete, your backend and frontend wi
 
 ---
 
+## Running the Application 🚀
+
+Before starting the servers, ensure the required ports (5000 for backend, 3000 for frontend) are not in use:
+```bash
+# Check if ports are in use
+lsof -i :5000
+lsof -i :3000
+
+# If needed, kill the processes using these ports
+sudo kill $(lsof -t -i:5000)
+sudo kill $(lsof -t -i:3000)
+```
+
+After clearing the ports, you can run both servers using the provided shell scripts:
+
+1. **Start the Backend Server**
+   Open a terminal and run:
+   ```bash
+   bash run_backend.sh
+   ```
+   The Flask backend will start on http://localhost:5000
+
+2. **Start the Frontend Server**
+   Open another terminal and run:
+   ```bash
+   bash run_frontend.sh
+   ```
+   The React frontend will start on http://localhost:3000
+
+These scripts handle all the necessary environment activation and server configuration automatically. You don't need to manually activate conda or set up environments - the scripts take care of everything!
+
+Note: When running in GitHub Codespaces, the ports will be automatically forwarded and you'll see notifications with the public URLs for accessing your application.
+
+---
+
 ## Database Structure
 
 The backend uses SQLAlchemy ORM for database modeling and migrations. By default, the project uses SQLite (the database file is located at `backend/instance/boilerplate.db`), but you can configure PostgreSQL or MySQL by updating the backend configuration.
@@ -136,5 +171,28 @@ This project is committed to maintaining high code quality and reliability throu
 For more details, see `backend/README_TESTING.md` and `frontend/README_TESTING.md`.
 
 ---
+
+## Docker: Using PostgreSQL or MySQL
+
+By default, the backend uses SQLite (file-based, inside the backend container). To use PostgreSQL or MySQL with Docker:
+
+1. Uncomment and configure the `db` service in `docker-compose.yml` (choose either the PostgreSQL or MySQL example, and set the environment variables as needed).
+2. Update `backend/.env`:
+   - For PostgreSQL:
+     ```env
+     SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
+     ```
+   - For MySQL:
+     ```env
+     SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@db:3306/dbname
+     ```
+3. Rebuild and start the containers:
+   ```bash
+   docker-compose down -v
+   docker-compose up --build
+   ```
+4. The backend will now use the external database container.
+
+See `DOCKER_SETUP.md` for more details.
 
 **Note:** If you use `setup_project.sh`, you do not need to follow the manual steps above unless you want to customize or troubleshoot the setup process. The script is structured to automate all the steps required for a working development environment.

@@ -152,3 +152,74 @@ This project is committed to maintaining high code quality and reliability throu
 - Review and update tests as code evolves.
 
 For more details, see `backend/README_TESTING.md` and `frontend/README_TESTING.md`.
+
+## Docker: Using PostgreSQL or MySQL
+
+By default, the backend uses SQLite (file-based, inside the backend container). To use PostgreSQL or MySQL with Docker:
+
+1. Uncomment and configure the `db` service in `docker-compose.yml` (choose either the PostgreSQL or MySQL example, and set the environment variables as needed).
+2. Update `backend/.env`:
+   - For PostgreSQL:
+     ```env
+     SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
+     ```
+   - For MySQL:
+     ```env
+     SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@db:3306/dbname
+     ```
+3. Rebuild and start the containers:
+   ```bash
+   docker-compose down -v
+   docker-compose up --build
+   ```
+4. The backend will now use the external database container.
+
+See `DOCKER_SETUP.md` for more details.
+
+## Database Setup: Docker and Non-Docker Options
+
+By default, the backend uses SQLite (file-based, inside the backend container or local backend directory). You can use PostgreSQL or MySQL with or without Docker:
+
+### 1. Using Docker for the Database (Recommended for Dev/Prod Parity)
+- Uncomment and configure the `db` service in `docker-compose.yml` (choose PostgreSQL or MySQL, set environment variables as needed).
+- Update `backend/.env`:
+  - For PostgreSQL (Docker):
+    ```env
+    SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
+    ```
+  - For MySQL (Docker):
+    ```env
+    SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@db:3306/dbname
+    ```
+- Rebuild and start containers:
+  ```bash
+  docker-compose down -v
+  docker-compose up --build
+  ```
+- The backend will use the database container.
+- See `DOCKER_SETUP.md` for more details.
+
+### 2. Using a Non-Docker (Local or Remote) Database
+- Set up your PostgreSQL or MySQL server locally or use a managed/cloud instance.
+- Update `backend/.env` with the correct connection string, e.g.:
+  - For local PostgreSQL:
+    ```env
+    SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost:5432/dbname
+    ```
+  - For remote PostgreSQL:
+    ```env
+    SQLALCHEMY_DATABASE_URI=postgresql://username:password@remotehost:5432/dbname
+    ```
+  - For local MySQL:
+    ```env
+    SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@localhost:3306/dbname
+    ```
+  - For remote MySQL:
+    ```env
+    SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@remotehost:3306/dbname
+    ```
+- Run the backend as usual (`bash run_backend.sh` or via Docker). The backend will connect to the specified database server.
+
+**Note:**
+- You can use any reachable PostgreSQL/MySQL instance—local, remote, or containerized.
+- The only requirement is that the backend can connect to the database using the URI in `.env`.
