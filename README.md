@@ -1,225 +1,122 @@
 # BoilerPlate-02
 
-## Project Overview
+A production-ready, scalable, and secure full-stack web application boilerplate.
 
-BoilerPlate-02 is a production-ready, scalable, and secure full-stack boilerplate for rapid development of modern web applications. It features a Flask backend, React frontend, Docker support, and robust testing and security best practices. The project is designed for extensibility, maintainability, and ease of use.
+## Documentation Quick Links
 
-### Technology Stack
-- **Backend:** Flask (Python), SQLAlchemy ORM, Flask-Migrate, Flask-WTF, Flask-Talisman, Flask-Login, Flask-CORS, Flask-Limiter, pytest
-- **Frontend:** React (TypeScript), Vite, Tailwind CSS, Shadcn UI, Vitest, ESLint, i18n (RTL/Arabic support)
-- **Database:** SQLite (default), PostgreSQL, MySQL (via config)
-- **Dockerized:** Separate containers for backend, frontend, and database
+📚 **Getting Started**
+- [Installation Guide](INSTALLATION.md) - Complete setup instructions
+- [Usage Guide](USAGE_GUIDE.md) - How to use this boilerplate
+- [Docker Setup](DOCKER_SETUP.md) - Container-based deployment
 
-## What Has Been Done
-- All previous git history has been reset. The current state is a clean slate with a single initial commit containing the final working version of the project.
-- The backend and frontend are fully set up with environment management, dependency installation, and ready-to-run scripts.
-- Docker support is included for easy deployment and local development.
-- Comprehensive documentation is provided for installation, architecture, and testing.
-- Security best practices are implemented (CSRF, CORS, secure headers, rate limiting, HSTS, role-based access, etc.).
-- Testing infrastructure is in place for both backend (pytest) and frontend (Vitest).
-- Internationalization (i18n) and RTL support are enabled in the frontend.
+🏗 **Architecture**
+- [Big Picture Overview](README_BIG_PICTURE.md) - System-wide architecture
+- [Backend Architecture](backend/README_ARCH.md) - Flask backend details
+- [Frontend Architecture](frontend/README_ARCH.md) - React frontend details
 
-## Usage of Shell Scripts
+🧪 **Testing**
+- [Backend Testing](backend/README_TESTING.md)
+- [Frontend Testing](frontend/README_TESTING.md)
 
-### setup_project.sh
-Prepares the full-stack project for first use. It:
-- Installs Miniconda if not present (downloads and sets up automatically)
-- Creates or activates a conda environment (user prompted for name, default is project directory)
-- Sets up the backend:
-  - Creates Python venv
-  - Installs backend dependencies from requirements.txt
-  - Copies .env.example to .env if needed
-  - Runs database migrations (initializes if not present)
-- Sets up the frontend:
-  - Installs and updates npm dependencies
-  - Ensures latest type definitions for i18n
-- Provides a message for Docker usage
-- Handles errors and logs progress for each step
+## Technology Stack
 
-**Usage:**
-```bash
-bash setup_project.sh
-```
+### Backend (Python/Flask)
+- Flask with SQLAlchemy ORM
+- Authentication & Authorization
+- Rate Limiting & Security Features
+- API Documentation
+- Extensive Testing Suite
 
-### run_backend.sh
-Runs the Flask backend with all necessary pre-run steps. It:
-- Prompts for the conda environment to activate (defaults to backend directory name)
-- Activates the conda environment (if conda is available)
-- Activates the Python virtual environment (venv)
-- Sets Flask app environment variables (FLASK_APP, FLASK_ENV)
-- Loads .env variables if present (for secrets/config)
-- Runs the Flask development server on 0.0.0.0:5000 (accessible from host)
-- Useful for local development and debugging
+### Frontend (React/TypeScript)
+- Modern React with TypeScript
+- Vite for Development
+- Tailwind CSS & Shadcn UI
+- i18n/RTL Support
+- Component Testing
 
-**Usage:**
-```bash
-bash run_backend.sh
-```
+### Infrastructure
+- Docker & Docker Compose
+- Database Options:
+  - SQLite (Development)
+  - PostgreSQL (Production)
+  - MySQL (Alternative)
+- Redis for Rate Limiting
+- Comprehensive Security
 
-### run_frontend.sh
-Runs the React frontend. It:
-- Changes to the frontend directory
-- Loads .env variables if present (for frontend config)
-- Starts the Vite development server (hot reload, runs on http://localhost:3000)
-- Useful for local frontend development
+## Key Features
 
-**Usage:**
-```bash
-bash run_frontend.sh
-```
+### Security
+- CSRF Protection
+- CORS Configuration
+- Secure Headers (HSTS, etc.)
+- Rate Limiting
+- Session Security
+- SQL Injection Prevention
 
-## Directory Structure
-- `backend/` — Flask backend application, API, models, migrations, and tests
-- `frontend/` — React frontend application, components, pages, context, and tests
-- `docker-compose.yml` — Multi-container orchestration for backend, frontend, and database
-- `setup_project.sh` — One-step setup for both backend and frontend
-- `run_backend.sh` — Launches backend server with environment setup
-- `run_frontend.sh` — Launches frontend dev server
-- `INSTALLATION.md` — Step-by-step installation and setup guide
-- `README_BIG_PICTURE.md` — High-level project overview and architecture
+### Development
+- Hot Reloading
+- Type Safety
+- Error Handling
+- Logging System
+- Testing Infrastructure
 
-## Documentation
-- See `INSTALLATION.md` for setup instructions (Docker and local dev)
-- See `backend/README_ARCH.md` and `frontend/README_ARCH.md` for architecture details
-- See `backend/README_TESTING.md` and `frontend/README_TESTING.md` for testing instructions
-- See `README_BIG_PICTURE.md` for a high-level overview
+### Production Ready
+- Environment Management
+- Configuration System
+- Docker Support
+- Database Migrations
+- Performance Optimizations
 
 ## Quick Start
-- To set up the project: `bash setup_project.sh`
-- To run the backend: `bash run_backend.sh`
-- To run the frontend: `bash run_frontend.sh`
-- To use Docker: `docker-compose up --build`
 
-## Database Structure
-
-The backend uses SQLAlchemy ORM for database modeling and migrations. By default, the project uses SQLite (the database file is located at `backend/instance/boilerplate.db`), but you can configure PostgreSQL or MySQL by updating the backend configuration.
-
-### How the Database is Managed
-- **Models:** Defined in `backend/app/models.py`.
-- **Migrations:** Managed with Flask-Migrate (Alembic). Migration scripts are in `backend/migrations/versions/`.
-- **Initialization:** The setup and backend run scripts automatically create the database and apply migrations.
-
-### Existing Tables (Initial State)
-Based on the initial migration and typical boilerplate structure, the following tables are present:
-- **user**: Stores user accounts for authentication and management (fields typically include id, username, email, password_hash, roles, etc.).
-- **role**: (If using role-based access) Stores user roles and permissions.
-- **alembic_version**: Tracks the current database migration version (used by Alembic/Flask-Migrate).
-
-Additional tables may exist depending on your app’s features (e.g., tokens, logs, or domain-specific data). You can view and modify the schema in `backend/app/models.py` and generate new migrations as needed.
-
-**Note:**
-- The database is automatically created and migrated when you run `setup_project.sh` or `run_backend.sh`.
-- You can inspect the schema by looking at the migration scripts or the models file.
-
----
-
-For more details, see the documentation files in this repository. Contributions and suggestions are welcome!
-
-## Testing Strategy and Plan
-
-This project is committed to maintaining high code quality and reliability through comprehensive automated testing for both the backend and frontend. Below is the plan for implementing and maintaining tests in both parts of the stack.
-
-### Backend Testing (Flask/Python)
-- **Framework:** pytest is used for all backend tests.
-- **Test Location:** All backend tests are located in `backend/tests/`.
-- **Test Types:**
-  - **Unit Tests:** For individual functions, models, and utilities.
-  - **Integration Tests:** For API endpoints, database interactions, and authentication flows.
-- **Fixtures:** Common test data and setup/teardown logic are managed using pytest fixtures (see `conftest.py`).
-- **Running Tests:**
-  - Use `bash backend/run_all_tests.sh` to run the full test suite.
-  - Use `bash backend/run_test.sh <test_file>` to run a specific test file.
-- **Coverage:** Aim for 80%+ code coverage. Add tests for new features and bug fixes.
-- **Continuous Integration:** Integrate with CI tools (e.g., GitHub Actions) to run tests on every pull request.
-
-### Frontend Testing (React/TypeScript)
-- **Framework:** Vitest is used for all frontend tests.
-- **Test Location:** All frontend tests are located in `frontend/src/**/__tests__/`.
-- **Test Types:**
-  - **Unit Tests:** For components, hooks, and utility functions.
-  - **Integration Tests:** For page flows, context providers, and API interactions.
-- **Mocking:** Use Vitest and React Testing Library to mock API calls, context, and user interactions.
-- **Running Tests:**
-  - Use `npm run test` in the `frontend/` directory to run all tests.
-  - Use `npm run test -- <pattern>` to run specific tests.
-- **Coverage:** Aim for 80%+ code coverage. Add tests for new UI features and bug fixes.
-- **Continuous Integration:** Integrate with CI tools to ensure tests run on every pull request.
-
-### General Testing Guidelines
-- Write tests for every new feature and bug fix.
-- Keep tests isolated, repeatable, and fast.
-- Use descriptive test names and clear assertions.
-- Review and update tests as code evolves.
-
-For more details, see `backend/README_TESTING.md` and `frontend/README_TESTING.md`.
-
-## Docker: Using PostgreSQL or MySQL
-
-By default, the backend uses SQLite (file-based, inside the backend container). To use PostgreSQL or MySQL with Docker:
-
-1. Uncomment and configure the `db` service in `docker-compose.yml` (choose either the PostgreSQL or MySQL example, and set the environment variables as needed).
-2. Update `backend/.env`:
-   - For PostgreSQL:
-     ```env
-     SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
-     ```
-   - For MySQL:
-     ```env
-     SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@db:3306/dbname
-     ```
-3. Rebuild and start the containers:
+1. Clone the repository:
    ```bash
-   docker-compose down -v
-   docker-compose up --build
+   git clone [repository-url] my-project
+   cd my-project
    ```
-4. The backend will now use the external database container.
 
-See `DOCKER_SETUP.md` for more details.
+2. Run the setup script:
+   ```bash
+   bash setup_project.sh
+   ```
 
-## Database Setup: Docker and Non-Docker Options
+3. Start the servers:
+   ```bash
+   # Terminal 1
+   bash run_backend.sh
 
-By default, the backend uses SQLite (file-based, inside the backend container or local backend directory). You can use PostgreSQL or MySQL with or without Docker:
+   # Terminal 2
+   bash run_frontend.sh
+   ```
 
-### 1. Using Docker for the Database (Recommended for Dev/Prod Parity)
-- Uncomment and configure the `db` service in `docker-compose.yml` (choose PostgreSQL or MySQL, set environment variables as needed).
-- Update `backend/.env`:
-  - For PostgreSQL (Docker):
-    ```env
-    SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
-    ```
-  - For MySQL (Docker):
-    ```env
-    SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@db:3306/dbname
-    ```
-- Rebuild and start containers:
-  ```bash
-  docker-compose down -v
-  docker-compose up --build
-  ```
-- The backend will use the database container.
-- See `DOCKER_SETUP.md` for more details.
+For detailed setup instructions, see [INSTALLATION.md](INSTALLATION.md).
 
-### 2. Using a Non-Docker (Local or Remote) Database
-- Set up your PostgreSQL or MySQL server locally or use a managed/cloud instance.
-- Update `backend/.env` with the correct connection string, e.g.:
-  - For local PostgreSQL:
-    ```env
-    SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost:5432/dbname
-    ```
-  - For remote PostgreSQL:
-    ```env
-    SQLALCHEMY_DATABASE_URI=postgresql://username:password@remotehost:5432/dbname
-    ```
-  - For local MySQL:
-    ```env
-    SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@localhost:3306/dbname
-    ```
-  - For remote MySQL:
-    ```env
-    SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@remotehost:3306/dbname
-    ```
-- Run the backend as usual (`bash run_backend.sh` or via Docker). The backend will connect to the specified database server.
+## Project Structure
 
-**Note:**
-- You can use any reachable PostgreSQL/MySQL instance—local, remote, or containerized.
-- The only requirement is that the backend can connect to the database using the URI in `.env`.
+```
+├── backend/               # Flask backend
+│   ├── app/              # Application code
+│   ├── tests/            # Test suite
+│   └── requirements.txt  # Python dependencies
+│
+├── frontend/             # React frontend
+│   ├── src/             # Source code
+│   ├── public/          # Static files
+│   └── package.json     # Node.js dependencies
+│
+├── setup_project.sh     # Project setup script
+├── run_backend.sh       # Backend startup script
+└── run_frontend.sh      # Frontend startup script
+```
+
+## Further Documentation
+
+See individual documentation files for detailed information:
+- [Storage Configuration](INSTALLATION.md#storage-configuration-guide)
+- [Security Setup](INSTALLATION.md#security-configuration)
+- [Development Workflow](USAGE_GUIDE.md#development-workflow)
+- [Production Deployment](DOCKER_SETUP.md#production-deployment)
+
+## License
+
+[MIT License](LICENSE)

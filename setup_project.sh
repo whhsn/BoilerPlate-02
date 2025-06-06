@@ -55,10 +55,17 @@ conda activate "$CONDA_ENV" || error_exit "Failed to activate conda environment.
 # 1. Backend setup
 log "Setting up backend..."
 cd "$(dirname "$0")/backend" || error_exit "Failed to enter backend directory."
+
+# Create .env from example if it doesn't exist
 if [ ! -f .env ]; then
-  cp .env.example .env || error_exit "Could not copy .env.example to .env."
-  log "[backend] .env created from .env.example."
+  if [ -f .env.example ]; then
+    cp .env.example .env || error_exit "Could not copy backend .env.example to .env."
+    log "[backend] .env created from .env.example."
+  else
+    error_exit "Backend .env.example not found!"
+  fi
 fi
+
 log "Creating Python virtual environment..."
 python3 -m venv venv || error_exit "Failed to create virtual environment."
 source venv/bin/activate || error_exit "Failed to activate virtual environment."
@@ -78,6 +85,17 @@ cd .. || error_exit "Failed to return to project root."
 # 2. Frontend setup
 log "Setting up frontend..."
 cd "$(dirname "$0")/frontend" || error_exit "Failed to enter frontend directory."
+
+# Create .env from example if it doesn't exist
+if [ ! -f .env ]; then
+  if [ -f .env.example ]; then
+    cp .env.example .env || error_exit "Could not copy frontend .env.example to .env."
+    log "[frontend] .env created from .env.example."
+  else
+    error_exit "Frontend .env.example not found!"
+  fi
+fi
+
 log "Installing frontend dependencies..."
 npm install || error_exit "Failed to install frontend dependencies."
 log "Updating frontend dependencies..."
