@@ -40,6 +40,9 @@ DEFAULT_CONDA_ENV=$(basename "$PWD")
 read -p "Enter the name for the conda environment to use/create (default: $DEFAULT_CONDA_ENV): " CONDA_ENV
 CONDA_ENV=${CONDA_ENV:-$DEFAULT_CONDA_ENV}
 
+# Save the conda environment name to .env
+echo "CONDA_ENV_NAME=$CONDA_ENV" > .env
+
 if conda env list | grep -q "^$CONDA_ENV[[:space:]]"; then
   log "Conda environment '$CONDA_ENV' already exists. Using it."
 else
@@ -66,11 +69,6 @@ if [ ! -f .env ]; then
   fi
 fi
 
-log "Creating Python virtual environment..."
-python3 -m venv venv || error_exit "Failed to create virtual environment."
-source venv/bin/activate || error_exit "Failed to activate virtual environment."
-log "Upgrading pip..."
-pip install --upgrade pip || error_exit "Failed to upgrade pip."
 log "Installing backend dependencies..."
 pip install -r requirements.txt || error_exit "Failed to install backend dependencies."
 log "Running database migrations..."
