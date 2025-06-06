@@ -16,40 +16,105 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
-.env
 
-# Virtual Environment
+# Python Virtual Environment
 venv/
 env/
 ENV/
 .venv/
+.env
+.env.*
+!.env.example
 
-# IDE
+# Flask
+instance/
+.webassets-cache
+*.db
+*.sqlite3
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.yarn-integrity
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build outputs
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# IDE and Editors
 .idea/
 .vscode/
 *.swp
 *.swo
+*.swn
+*.bak
+*.sublime*
+.settings/
+*.code-workspace
 
-# SQLite
-*.db
-*.sqlite3
+# OS
+.DS_Store
+Thumbs.db
+*.pid
+*.seed
+*.pid.lock
 
 # Logs
+logs/
 *.log
-
-# Frontend
-node_modules/
-.DS_Store
-coverage/
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-dist/
+lerna-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+!.env.example
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Misc
+.cache
+temp/
+tmp/
+.tmp/
+*.bak
+*.swp
+*.orig
+*~
