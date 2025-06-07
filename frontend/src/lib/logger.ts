@@ -1,6 +1,4 @@
 // Centralized logging utility for the frontend
-// Easily extendable for production logging, error reporting, or external services
-
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 interface Logger {
@@ -12,22 +10,39 @@ interface Logger {
 
 const isProd = process.env.NODE_ENV === 'production';
 
+const formatMessage = (level: string, ...args: any[]) => {
+  const timestamp = new Date().toISOString();
+  const prefix = `[${timestamp}] [${level}]`;
+  
+  if (typeof args[0] === 'string') {
+    return [
+      `%c${prefix}%c ${args[0]}`,
+      'color: gray; font-weight: bold',
+      'color: inherit',
+      ...args.slice(1)
+    ];
+  }
+  
+  return [
+    `%c${prefix}`,
+    'color: gray; font-weight: bold',
+    ...args
+  ];
+};
+
 const logger: Logger = {
   debug: (...args) => {
-    if (!isProd) console.debug('[DEBUG]', ...args);
-    // Extend here for remote debug logging
+    if (!isProd) console.debug(...formatMessage('DEBUG', ...args));
   },
   info: (...args) => {
-    if (!isProd) console.info('[INFO]', ...args);
-    // Extend here for remote info logging
+    if (!isProd) console.info(...formatMessage('INFO', ...args));
   },
   warn: (...args) => {
-    console.warn('[WARN]', ...args);
-    // Extend here for remote warning logging
+    console.warn(...formatMessage('WARN', ...args));
   },
   error: (...args) => {
-    console.error('[ERROR]', ...args);
-    // Extend here for error reporting (e.g., Sentry, LogRocket)
+    console.error(...formatMessage('ERROR', ...args));
+    // In production, you might want to send errors to a service like Sentry
   },
 };
 
